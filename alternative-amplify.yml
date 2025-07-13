@@ -1,0 +1,22 @@
+# Alternative: Use this ONLY if you need Node.js 20
+# You must also change build image to Amazon Linux:2023 in Amplify Console
+
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - nvm install 20.19.0
+        - nvm use 20.19.0
+        - npm ci
+    build:
+      commands:
+        - npm run build -- --configuration=production
+  artifacts:
+    baseDirectory: dist/SmartKitchen_App/browser
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - node_modules/**/*
+      - .npm/**/*

@@ -1,0 +1,35 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - echo "=== Debug: Initial Node version ==="
+        - node --version
+        - npm --version
+        - echo "=== Installing Node.js 20.19.0 ==="
+        - nvm install 20.19.0
+        - echo "=== Switching to Node.js 20.19.0 ==="
+        - nvm use 20.19.0
+        - echo "=== Verifying Node version after nvm use ==="
+        - node --version
+        - npm --version
+        - echo "=== Setting default Node version ==="
+        - nvm alias default 20.19.0
+        - echo "=== Final Node version check ==="
+        - node --version
+        - echo "=== Installing dependencies ==="
+        - npm ci
+    build:
+      commands:
+        - echo "=== Build phase Node version ==="
+        - node --version
+        - echo "=== Running Angular build ==="
+        - npm run build -- --configuration=production
+  artifacts:
+    baseDirectory: dist/SmartKitchen_App/browser
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - node_modules/**/*
+      - .npm/**/*

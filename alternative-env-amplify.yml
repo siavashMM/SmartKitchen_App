@@ -1,0 +1,29 @@
+# Alternative approach using environment variables
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - export NODE_VERSION=20.19.0
+        - nvm install $NODE_VERSION
+        - nvm use $NODE_VERSION
+        - nvm alias default $NODE_VERSION
+        - which node
+        - node --version
+        - which npm
+        - npm --version
+        - npm ci
+    build:
+      commands:
+        - export NODE_VERSION=20.19.0
+        - nvm use $NODE_VERSION
+        - node --version
+        - npm run build -- --configuration=production
+  artifacts:
+    baseDirectory: dist/SmartKitchen_App/browser
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - node_modules/**/*
+      - .npm/**/*

@@ -1,0 +1,22 @@
+# Alternative: Build Node.js 20 from source (slower build time)
+# Use this ONLY if you cannot change to Amazon Linux:2023
+
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - nvm install -s 20.19.0  # -s flag builds from source
+        - nvm use 20.19.0
+        - npm ci
+    build:
+      commands:
+        - npm run build -- --configuration=production
+  artifacts:
+    baseDirectory: dist/SmartKitchen_App/browser
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - node_modules/**/*
+      - .npm/**/*
